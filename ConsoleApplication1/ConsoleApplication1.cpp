@@ -61,11 +61,7 @@ int main() {
 		disciples[i].name = getName("Введите название дисциплины");
 		disciples[i].lec_count = getCount("Введите количество лекций");
 		disciples[i].lec_name = getName("Введите имя преподователя");
-		cout << "Введите номер аудитории" << endl;
-		string numb1;
-		cin >> numb1;
-		disciples[i].lec_aud = numb1;
-		numb1.clear();
+		disciples[i].lec_aud = getCount("Введите номер аудитории");
 		int count_of_sem;
 		cout << "Введите количество  семинаров" << endl;
 		cin >> count_of_sem;
@@ -73,14 +69,8 @@ int main() {
 		for (int j = 0; j < count_of_sem; j++)
 		{
 			disciples[i].sem_name[j] = getName("Введите имя преподователя");;
-			cout << "Введите номер аудитории" << endl;
-			cin >> numb1;
-			disciples[i].sem_aud[j] = numb1;
-			numb1.clear();
+			disciples[i].sem_aud[j] = getCount("Введите номер аудитории");
 		}
-		numb1.clear();
-		
-
 		cout << "Введите количество  лабараторных" << endl;
 		int count_of_lab;
 		cin >> count_of_lab;
@@ -88,10 +78,7 @@ int main() {
 		for (int j = 0; j < count_of_lab; j++)
 		{
 			disciples[i].lab_name[j] = getName("Введите имя преподователя");;
-			cout << "Введите номер аудитории" << endl;
-			cin >> numb1;
-			disciples[i].lab_aud[j] = numb1;
-			numb1.clear();
+			disciples[i].lab_aud[j] = getCount("Введите номер аудитории");;
 		}
 	}
 

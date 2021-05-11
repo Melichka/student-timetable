@@ -37,31 +37,28 @@ void initRussianText() {
 	SetConsoleCP(1251);
 	SetConsoleOutputCP(1251);
 }
-int getThreadCount() {
-	cout << "Введите количество потоков" << endl;
-	int threadCount;
-	cin >> threadCount;
-	return threadCount;
+int getCount(string message) {
+	cout << message << endl;
+	int count;
+	cin >> count;
+	return  count;
 }
-int getDisciplineCount() {
-	cout << "Введите количество дисцплин" << endl;
-	int disciplineCount;
-	cin >> disciplineCount;
-	return  disciplineCount;
+string getName(string message) {
+	cout << message << endl;
+	string name;
+	cin >> name;
+	return name;
 }
 
 
 int main() {
 	initRussianText();
+	int threadCount = getCount("Введите количество потоков");
+	int disciplineCount = getCount("Введите количество дисцплин");
 	Disciple disciples[10];
-	int threadCount = getThreadCount();
-	int disciplineCount = getDisciplineCount();
 	for (int i = 0; i < disciplineCount; i++)
 	{
-		cout << "Введите название дисциплины" << endl;
-		string nameofdic;
-		cin >> nameofdic;
-		disciples[i].name = nameofdic;
+		disciples[i].name = getName("Введите название дисциплины");
 		cout << "Введите количество  лекций" << endl;
 		int count_of_lec;
 		cin >> count_of_lec;
@@ -75,7 +72,6 @@ int main() {
 		cin >> numb1;
 		disciples[i].lec_aud = numb1;
 		numb1.clear();
-		nameofdic.clear();
 		int count_of_sem;
 		cout << "Введите количество  семинаров" << endl;
 		cin >> count_of_sem;
@@ -93,7 +89,7 @@ int main() {
 			numb1.clear();
 		}
 		numb1.clear();
-		nameofdic.clear();
+		
 
 		cout << "Введите количество  лабараторных" << endl;
 		int count_of_lab;

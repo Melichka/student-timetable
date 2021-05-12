@@ -3,6 +3,7 @@
 #include <string>
 #include <cstring>
 #include <cstdlib>
+#include <vector>
 #include <iomanip>
 #include <windows.h>
 
@@ -50,49 +51,54 @@ string getName(string message) {
 	return name;
 }
 
+vector<Disciple> getDisciples(int count) {
+	vector<Disciple> disciples(count);
+	for (int i = 0; i < count; i++)
+	{
+		disciples[i].name = getName("Введите название дисциплины");
+		disciples[i].lec_count = getCount("Введите количество лекций");
+		disciples[i].lec_name = getName("Введите имя преподователя");
+		disciples[i].lec_aud = getName("Введите номер аудитории");
+		disciples[i].sem_count = getCount("Введите количество  семинаров");
+		for (int j = 0; j < disciples[i].sem_count; j++)
+		{
+			disciples[i].sem_name[j] = getName("Введите имя преподователя");
+			disciples[i].sem_aud[j] = getName("Введите номер аудитории");
+		}
+		disciples[i].lab_count = getCount("Введите количество  лабараторных");
+		for (int j = 0; j < disciples[i].lab_count; j++)
+		{
+			disciples[i].lab_name[j] = getName("Введите имя преподователя");
+			disciples[i].lab_aud[j] = getName("Введите номер аудитории");
+		}
+
+	}
+	return disciples;
+}
 
 int main() {
 	initRussianText();
 	int threadCount = getCount("Введите количество потоков");
 	int disciplineCount = getCount("Введите количество дисцплин");
-	Disciple disciples[10];
-	for (int i = 0; i < disciplineCount; i++)
-	{
-		disciples[i].name = getName("Введите название дисциплины");
-		disciples[i].lec_count = getCount("Введите количество лекций");
-		disciples[i].lec_name = getName("Введите имя преподователя");
-		disciples[i].lec_aud = getCount("Введите номер аудитории");
-		disciples[i].sem_count = getCount("Введите количество  семинаров");
-		for (int j = 0; j < disciples[i].sem_count; j++)
-		{
-			disciples[i].sem_name[j] = getName("Введите имя преподователя");;
-			disciples[i].sem_aud[j] = getCount("Введите номер аудитории");
-		}
-		disciples[i].lab_count = getCount("Введите количество  лабараторных");
-		for (int j = 0; j < disciples[i].lab_count; j++)
-		{
-			disciples[i].lab_name[j] = getName("Введите имя преподователя");;
-			disciples[i].lab_aud[j] = getCount("Введите номер аудитории");;
-		}
-	}
-
+	vector<Disciple> disciples = getDisciples (disciplineCount);
+	
 	auto days = new Day * [12];
-	for (int i = 0; i < 12; i++)
+	for (int i = 0; i < 12; i++) {
 		days[i] = new Day[threadCount];
-
-	for (int i = 0; i < 12; i++)
 		for (int j = 0; j < threadCount; j++) {
 			days[i][j].lec_count = 0;
 			days[i][j].lessons_count = 0;
 		}
+	}
+
 
 	int d = 0;
 
-	for (int i = 0; i < disciplineCount + 1; i++) {
+	for (int i = 0; i < disciplineCount; i++) {
 		for (int j = 0; j < disciples[i].lec_count; j++) {
 			if (days[d][0].lec_count < 2) {
 				days[d][0].name[days[d][0].lessons_count] = disciples[i].name;
-				days[d][0].type[days[d][0].lessons_count] = "Lection";
+				days[d][0].type[days[d][0].lessons_count] = "Лекция";
 				days[d][0].aud[days[d][0].lessons_count] = disciples[i].lec_aud;
 				days[d][0].lessons[days[d][0].lessons_count] = disciples[i].lec_name;
 				days[d][0].lec_count++;
@@ -112,7 +118,7 @@ int main() {
 	d = 0;
 	int p = 0;
 
-	for (int i = 0; i < disciplineCount + 1; i++) {
+	for (int i = 0; i < disciplineCount; i++) {
 		for (int j = 0; j < disciples[i].sem_count; j++) {
 			int flag = 0;
 			for (int k = 0; k < threadCount; k++) {
@@ -123,7 +129,7 @@ int main() {
 			}
 			if ((days[d][p].lessons_count < 4) && (!flag)) {
 				days[d][p].name[days[d][p].lessons_count] = disciples[i].name;
-				days[d][p].type[days[d][p].lessons_count] = "Seminar";
+				days[d][p].type[days[d][p].lessons_count] = "Семинар";
 				days[d][p].aud[days[d][p].lessons_count] = disciples[i].sem_aud[j];
 				days[d][p].lessons[days[d][p].lessons_count] = disciples[i].sem_name[j];
 				days[d][p].lessons_count++;
@@ -142,7 +148,7 @@ int main() {
 	d = 0;
 	p = 0;
 
-	for (int i = 0; i < disciplineCount + 1; i++) {
+	for (int i = 0; i < disciplineCount; i++) {
 		for (int j = 0; j < disciples[i].lab_count; j++) {
 			int flag = 0;
 			for (int k = 0; k < threadCount; k++) {
@@ -153,7 +159,7 @@ int main() {
 			}
 			if ((days[d][p].lessons_count < 4) && (!flag)) {
 				days[d][p].name[days[d][p].lessons_count] = disciples[i].name;
-				days[d][p].type[days[d][p].lessons_count] = "Laboratornaya";
+				days[d][p].type[days[d][p].lessons_count] = "Лабораторная";
 				days[d][p].aud[days[d][p].lessons_count] = disciples[i].lab_aud[j];
 				days[d][p].lessons[days[d][p].lessons_count] = disciples[i].lab_name[j];
 				days[d][p].lessons_count++;
@@ -171,29 +177,29 @@ int main() {
 
 	ofstream outf("table.xls");
 
-	outf << "Day"
-		<< "\t" << "Type"
-		<< "\t" << "Prepod"
-		<< "\t" << "Lesson"
-		<< "\t" << "Aud"
+	outf << "День"
+		<< "\t" << "Тип"
+		<< "\t" << "Препод."
+		<< "\t" << "Дисциплина"
+		<< "\t" << "Ауд."
 		<< "\t" << endl;
 
 	for (int k = 0; k < threadCount; k++) {
-		outf << "Group " << k + 1 << endl;
+		outf << "Группа " << k + 1 << endl;
 		for (int i = 0; i < 12; i++) {
 			if (days[i][k].lessons_count != 0)
 				switch ((i + 1) % 6) {
-				case 1: outf << "Ponedelnik" << "\t";
+				case 1: outf << "Понедельник" << "\t";
 					break;
-				case 2: outf << "Vtornik" << "\t";
+				case 2: outf << "Вторник" << "\t";
 					break;
-				case 3: outf << "Sreda" << "\t";
+				case 3: outf << "Среда" << "\t";
 					break;
-				case 4: outf << "Chetverg" << "\t";
+				case 4: outf << "Четверг" << "\t";
 					break;
-				case 5: outf << "Pyatnica" << "\t";
+				case 5: outf << "Пятница" << "\t";
 					break;
-				case 0: outf << "Subbota" << "\t";
+				case 0: outf << "Суббота" << "\t";
 					break;
 				}
 			for (int j = 0; j < days[i][k].lessons_count; j++) {

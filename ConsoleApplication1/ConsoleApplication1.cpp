@@ -92,10 +92,10 @@ int main() {
 	}
 
 	int d = 0;
-
+	int LECTION_COUNT = 2;
 	for (int i = 0; i < disciplineCount; i++) {
 		for (int j = 0; j < disciples[i].lec_count; j++) {
-			if (days[d][0].lec_count < 2) {
+			if (days[d][0].lec_count < LECTION_COUNT) {
 				days[d][0].name[days[d][0].lessons_count] = disciples[i].name;
 				days[d][0].type[days[d][0].lessons_count] = "Лекция";
 				days[d][0].aud[days[d][0].lessons_count] = disciples[i].lec_aud;

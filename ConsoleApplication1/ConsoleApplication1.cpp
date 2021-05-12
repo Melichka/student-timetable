@@ -80,8 +80,8 @@ int main() {
 	initRussianText();
 	int threadCount = getCount("Введите количество потоков");
 	int disciplineCount = getCount("Введите количество дисцплин");
-	vector<Disciple> disciples = getDisciples (disciplineCount);
-	
+	vector<Disciple> disciples = getDisciples(disciplineCount);
+
 	auto days = new Day * [12];
 	for (int i = 0; i < 12; i++) {
 		days[i] = new Day[threadCount];
@@ -90,7 +90,6 @@ int main() {
 			days[i][j].lessons_count = 0;
 		}
 	}
-
 
 	int d = 0;
 
